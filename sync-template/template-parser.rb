@@ -2,6 +2,7 @@ require 'IMGKit'
 require 'ERB'
 require 'JSON'
 require 'securerandom'
+require 'color'
 
 module SyncTemplate
   class TemplateParser
@@ -9,6 +10,7 @@ module SyncTemplate
 
     def initialize(content)
       @content = JSON.parse content
+      @content["pencil"] = pencil_colour
       # Is this collision safe?  No.  Do I care?  Also no.
       @filename = SecureRandom.hex(13)
     end
@@ -20,6 +22,19 @@ module SyncTemplate
     end
 
     private
+
+    def pencil_colour
+      # Uses same algo as ljdawson to calculate brightness, but this is inverse
+      # So we have to compare against 0.8 instead of 0.2
+      brightness = Color::RGB.from_html(@content["accent_color"]).brightness
+      brightness < 0.8 ? '#FFFFFF' : "#000000"
+    end
+
+    def convert_base(string, from, to)
+      # I could make this a method on the String class, but I like my sanity intact
+      string.to_i(from).to_s(to)
+    end
+
 
     def compile_css
       # IMGKit can only take files as args, not strings

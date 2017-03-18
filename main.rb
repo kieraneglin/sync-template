@@ -3,7 +3,7 @@ require_relative 'sync-template/imgur-uploader'
 
 content = '{ "name": "Peachy",
   "primary_color": "#b95289",
-  "accent_color": "#fbb2b3",
+  "accent_color": "#FFFFFF",
   "highlight_color": "#59c99d",
   "primary_text_color": "#697c8f",
   "secondary_text_color": "#8d8d8d",
