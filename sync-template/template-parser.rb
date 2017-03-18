@@ -5,34 +5,35 @@ require 'securerandom'
 
 module SyncTemplate
   class TemplateParser
-    class << self
-      attr_accessor :content
-      
-      def render(content)
-        @content = JSON.parse content
-        # Is this collision safe?  No.  Do I care?  Also no.
-        @filename = SecureRandom.hex(13)
-        kit = IMGKit.new(compile_html, quality: 100, width: 810)
-        kit.stylesheets << compile_css
-        kit.to_file("images/#{@filename}.jpg")
-      end
+    attr_accessor :content
 
-      private
+    def initialize(content)
+      @content = JSON.parse content
+      # Is this collision safe?  No.  Do I care?  Also no.
+      @filename = SecureRandom.hex(13)
+    end
 
-      def compile_css
-        # IMGKit can only take files as args, not strings
-        stylesheet = File.open('template/template.css').read
-        filename = "stylesheets/#{@filename}.css"
-        File.open(filename, 'w') do |f|
-          f.write(ERB.new(stylesheet).result(binding))
-        end
-        filename
-      end
+    def render
+      kit = IMGKit.new(compile_html, quality: 100, width: 810)
+      kit.stylesheets << compile_css
+      kit.to_file("images/#{@filename}.jpg")
+    end
 
-      def compile_html
-        template = File.open('template/template.html').read
-        ERB.new(template).result(binding)
+    private
+
+    def compile_css
+      # IMGKit can only take files as args, not strings
+      stylesheet = File.open('template/template.css').read
+      filename = "stylesheets/#{@filename}.css"
+      File.open(filename, 'w') do |f|
+        f.write(ERB.new(stylesheet).result(binding))
       end
+      filename
+    end
+
+    def compile_html
+      template = File.open('template/template.html').read
+      ERB.new(template).result(binding)
     end
   end
 end
