@@ -7,7 +7,7 @@ module SyncTemplate
   class TemplateParser
     attr_accessor :content
 
-    def initialize content
+    def initialize(content)
       @content = JSON.parse content
       # Is this collision safe?  No.  Do I care?  Also no.
       @filename = SecureRandom.hex(13)

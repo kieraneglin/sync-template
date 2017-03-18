@@ -1,2 +1,3 @@
 images/**/*.jpg
 stylesheets/**/*.css
+.env
