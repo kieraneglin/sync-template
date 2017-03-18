@@ -30,12 +30,6 @@ module SyncTemplate
       brightness < 0.8 ? '#FFFFFF' : "#000000"
     end
 
-    def convert_base(string, from, to)
-      # I could make this a method on the String class, but I like my sanity intact
-      string.to_i(from).to_s(to)
-    end
-
-
     def compile_css
       # IMGKit can only take files as args, not strings
       stylesheet = File.open('template/template.css').read
