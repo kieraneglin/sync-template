@@ -23,6 +23,11 @@ module SyncTemplate
       File.join(Dir.pwd, "images", "#{@filename}.jpg")
     end
 
+    def cleanup
+      File.delete(File.join(Dir.pwd, "images", "#{@filename}.jpg"))
+      File.delete(File.join(Dir.pwd, "stylesheets", "#{@filename}.css"))
+    end
+
     private
 
     def pencil_colour

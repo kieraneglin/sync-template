@@ -41,6 +41,8 @@ module SyncTemplate
       sync = SyncTemplate::TemplateParser.new template
       imgur_url = SyncTemplate::ImgurUploader.upload_template sync.render
       imgur_hash = { name: sync.name, url: imgur_url }
+      sync.cleanup
+      imgur_hash
     end
 
     def already_commented?(post)
