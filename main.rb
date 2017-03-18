@@ -6,18 +6,38 @@
 require_relative 'sync-template/template-parser'
 require_relative 'sync-template/imgur-uploader'
 
-content = '{ "name": "Peachy",
-  "primary_color": "#b95289",
-  "accent_color": "#FFFFFF",
-  "highlight_color": "#59c99d",
-  "primary_text_color": "#697c8f",
-  "secondary_text_color": "#8d8d8d",
-  "window_color": "#e4e4e4",
-  "content_color": "#ffffff",
-  "auto_subreddit_themes": false }'
-
-s = SyncTemplate::TemplateParser.new content
-puts s.render.path
-
+# content = '{ "name": "Peachy",
+#   "primary_color": "#b95289",
+#   "accent_color": "#FFFFFF",
+#   "highlight_color": "#59c99d",
+#   "primary_text_color": "#697c8f",
+#   "secondary_text_color": "#8d8d8d",
+#   "window_color": "#e4e4e4",
+#   "content_color": "#ffffff",
+#   "auto_subreddit_themes": false }'
+#
+# s = SyncTemplate::TemplateParser.new content
+# puts s.render.path
+#
 
 # puts SyncTemplate::ImgurUploader.upload_template "/Users/Kieran/Documents/Programming/redditsync/images/4fb6ca2836f406c7d6bd0eb316.jpg"
+
+require 'redd'
+
+session = Redd.it(
+  user_agent: 'SyncTemplateBot',
+  client_id:  ENV["REDDIT_CLIENT"],
+  secret:     ENV["REDDIT_SECRET"],
+  username:   'SyncTemplateBot',
+  password:   ENV["REDDIT_PASS"]
+)
+
+session.subreddit('SyncTemplateTest').post_stream do |post|
+  templates = post.selftext.scan(/(\{.*?\})/).flatten
+  if templates.any?
+    templates.each do |template|
+      s = SyncTemplate::TemplateParser.new template
+      puts s.render
+    end
+  end
+end

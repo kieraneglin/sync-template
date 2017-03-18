@@ -19,6 +19,7 @@ module SyncTemplate
       kit = IMGKit.new(compile_html, quality: 100, width: 810)
       kit.stylesheets << compile_css
       kit.to_file("images/#{@filename}.jpg")
+      File.join(Dir.pwd, "images", "#{@filename}.jpg")
     end
 
     private

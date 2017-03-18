@@ -1,9 +1,28 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     color (1.8)
+    domain_name (0.5.20170223)
+      unf (>= 0.0.5, < 1.0.0)
     dotenv (2.2.0)
+    http (2.2.1)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 1.0.1)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    http-form_data (1.0.1)
+    http_parser.rb (0.6.0)
     imgkit (1.6.1)
+    public_suffix (2.0.5)
+    redd (0.8.5)
+      http (~> 2.2)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     wkhtmltoimage-binary (0.12.4)
 
 PLATFORMS
@@ -13,6 +32,7 @@ DEPENDENCIES
   color
   dotenv
   imgkit
+  redd
   wkhtmltoimage-binary
 
 BUNDLED WITH
