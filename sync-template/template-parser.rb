@@ -6,11 +6,12 @@ require 'color'
 
 module SyncTemplate
   class TemplateParser
-    attr_accessor :content
+    attr_accessor :content, :name
 
     def initialize(content)
       @content = JSON.parse content
       @content["pencil"] = pencil_colour
+      @name = @content["name"]
       # Is this collision safe?  No.  Do I care?  Also no.
       @filename = SecureRandom.hex(13)
     end
