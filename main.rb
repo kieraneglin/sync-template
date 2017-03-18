@@ -11,8 +11,8 @@ content = '{ "name": "Peachy",
   "content_color": "#ffffff",
   "auto_subreddit_themes": false }'
 
-# s = SyncTemplate::TemplateParser.new content
+s = SyncTemplate::TemplateParser.render content
 # puts s.render.path
 
 
-puts SyncTemplate::ImgurUploader.upload_template "/Users/Kieran/Documents/Programming/redditsync/images/4fb6ca2836f406c7d6bd0eb316.jpg"
+# puts SyncTemplate::ImgurUploader.upload_template "/Users/Kieran/Documents/Programming/redditsync/images/4fb6ca2836f406c7d6bd0eb316.jpg"
