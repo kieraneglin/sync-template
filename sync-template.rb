@@ -1,15 +1,36 @@
 require 'IMGKit'
+require 'ERB'
+require 'JSON'
+require 'securerandom'
 
 class SyncTemplate
-  def initialize
+  attr_accessor :content
 
+  def initialize content
+    @content = JSON.parse content
+    @template = File.open('template/template.html').read
+    @stylesheet = File.open('template/template.css').read
+    # Is this collision safe?  No.  Do I care?  Also no.
+    @filename = SecureRandom.hex(13)
   end
 
   def render
-    html = File.open('template/template.html')
-    kit = IMGKit.new(html.read, quality: 100, width: 810)
-    kit.stylesheets << 'template/template.css'
+    kit = IMGKit.new(compile_html, quality: 100, width: 810)
+    kit.stylesheets << compile_css
+    kit.to_file("images/#{@filename}.jpg")
+  end
 
-    file = kit.to_file('images/file.jpg')
+  private
+
+  def compile_css
+    filename = "stylesheets/#{@filename}.css"
+    File.open(filename, 'w') do |f|
+      f.write(ERB.new(@stylesheet).result(binding))
+    end
+    filename
+  end
+
+  def compile_html
+    ERB.new(@template).result(binding)
   end
 end
