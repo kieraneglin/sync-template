@@ -1,3 +1,8 @@
+##########################################################
+# Until basic classes are finished, this is for testing. #
+# This will be the main loop that interacts with reddit. #
+##########################################################
+
 require_relative 'sync-template/template-parser'
 require_relative 'sync-template/imgur-uploader'
 
