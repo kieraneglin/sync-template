@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 810px;
+}
 
 .container {
   width: 810px;
@@ -13,7 +18,7 @@
   height: 130px;
   background-color: #59f6ad;
   border-radius: 10px 10px 0 0;
-  box-shadow: 0px 9px 21px -15px rgba(0,0,0,0.4);
+  box-shadow: 0px 9px 21px -15px rgba(0, 0, 0, 0.4);
 }
 
 .body {
@@ -23,7 +28,7 @@
   background-color: white;
   position: relative;
   border-radius: 10px;
-  box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.1);
 }
 
 .more {
@@ -52,7 +57,7 @@
   position: absolute;
   right: -25px;
   bottom: -25px;
-  box-shadow: 0px 0px 30px -11px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 30px -11px rgba(0, 0, 0, 0.1);
 }
 
 .fab>svg {
