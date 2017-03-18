@@ -13,15 +13,15 @@ module SyncTemplate
         templates = post.selftext.scan(/\{.*?\}/)
         imgur_links = []
         if !already_commented?(post) && templates.any?
-          begin
-            templates.each do |template|
+          templates.each do |template|
+            begin
               imgur_links << upload_screenshot(template)
+              puts "New post: #{imgur_links}"
+            rescue
+              puts 'Error in template creation'
             end
-            puts "New post: #{imgur_links}"
-            post.reply message(imgur_links)
-          rescue
-            puts "Error in template creation"
           end
+          post.reply message(imgur_links) if imgur_links.any?
         end
       end
     end
@@ -34,7 +34,7 @@ module SyncTemplate
         "[#{il[:name] || 'Theme'}](#{il[:url]})"
       end
 
-      "Screenshots for each template: #{formatted_templates.join(", ")}"
+      "Screenshots for each template: #{formatted_templates.join(', ')}"
     end
 
     def upload_screenshot(template)
@@ -48,16 +48,16 @@ module SyncTemplate
       if post.comments.to_ary.any?
         commenters = post.comments.map { |c| c.author.name }
       end
-      commenters.include? ENV["REDDIT_USER"]
+      commenters.include? ENV['REDDIT_USER']
     end
 
     def redd_params
       {
         user_agent: 'SyncTemplateBot@v1.0.0',
-        client_id:  ENV["REDDIT_CLIENT"],
-        secret:     ENV["REDDIT_SECRET"],
-        username:   ENV["REDDIT_USER"],
-        password:   ENV["REDDIT_PASS"]
+        client_id:  ENV['REDDIT_CLIENT'],
+        secret:     ENV['REDDIT_SECRET'],
+        username:   ENV['REDDIT_USER'],
+        password:   ENV['REDDIT_PASS']
       }
     end
   end
