@@ -8,8 +8,6 @@ class SyncTemplate
 
   def initialize content
     @content = JSON.parse content
-    @template = File.open('template/template.html').read
-    @stylesheet = File.open('template/template.css').read
     # Is this collision safe?  No.  Do I care?  Also no.
     @filename = SecureRandom.hex(13)
   end
@@ -23,14 +21,16 @@ class SyncTemplate
   private
 
   def compile_css
+    stylesheet = File.open('template/template.css').read
     filename = "stylesheets/#{@filename}.css"
     File.open(filename, 'w') do |f|
-      f.write(ERB.new(@stylesheet).result(binding))
+      f.write(ERB.new(stylesheet).result(binding))
     end
     filename
   end
 
   def compile_html
-    ERB.new(@template).result(binding)
+    template = File.open('template/template.html').read
+    ERB.new(template).result(binding)
   end
 end

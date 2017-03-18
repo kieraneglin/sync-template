@@ -11,6 +11,4 @@ content = '{ "name": "Peachy",
   "auto_subreddit_themes": false }'
 
 s = SyncTemplate.new content
-s.render
-
-# puts s.compile_css
+puts s.render.path
