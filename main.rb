@@ -1,4 +1,4 @@
-require_relative 'sync-template'
+require_relative 'sync-template/template-parser'
 
 content = '{ "name": "Peachy",
   "primary_color": "#b95289",
@@ -10,5 +10,5 @@ content = '{ "name": "Peachy",
   "content_color": "#ffffff",
   "auto_subreddit_themes": false }'
 
-s = SyncTemplate.new content
+s = SyncTemplate::TemplateParser.new content
 puts s.render.path
