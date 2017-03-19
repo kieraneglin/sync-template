@@ -10,22 +10,22 @@ module SyncTemplate
 
     def initialize(content)
       @content = JSON.parse content
-      @content["pencil"] = pencil_colour
-      @name = @content["name"]
+      @content['pencil'] = pencil_colour
+      @name = @content['name']
       # Is this collision safe?  No.  Do I care?  Also no.
       @filename = SecureRandom.hex(13)
     end
 
     def render
       kit = IMGKit.new(compile_html, quality: 100, width: 810)
-      kit.stylesheets << compile_css
+      kit.stylesheets.push(compile_css)
       kit.to_file("images/#{@filename}.jpg")
-      File.join(Dir.pwd, "images", "#{@filename}.jpg")
+      File.join(Dir.pwd, 'images', "#{@filename}.jpg")
     end
 
     def cleanup
-      File.delete(File.join(Dir.pwd, "images", "#{@filename}.jpg"))
-      File.delete(File.join(Dir.pwd, "stylesheets", "#{@filename}.css"))
+      File.delete(File.join(Dir.pwd, 'images', "#{@filename}.jpg"))
+      File.delete(File.join(Dir.pwd, 'stylesheets', "#{@filename}.css"))
     end
 
     private
@@ -33,8 +33,8 @@ module SyncTemplate
     def pencil_colour
       # Uses same algo as ljdawson to calculate brightness, but this is inverse
       # So we have to compare against 0.8 instead of 0.2
-      brightness = Color::RGB.from_html(@content["accent_color"]).brightness
-      brightness < 0.8 ? '#FFFFFF' : "#000000"
+      brightness = Color::RGB.from_html(@content['accent_color']).brightness
+      brightness < 0.8 ? '#FFFFFF' : '#000000'
     end
 
     def compile_css

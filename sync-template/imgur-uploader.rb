@@ -7,7 +7,7 @@ module SyncTemplate
   class ImgurUploader
     class << self
       def upload_template(filepath)
-        request = Net::HTTP::Post.new("https://api.imgur.com/3/image")
+        request = Net::HTTP::Post.new('https://api.imgur.com/3/image')
         request.set_form_data(encode_image(filepath))
         request.add_field('Authorization', authorization)
         response = web_client.request(request)

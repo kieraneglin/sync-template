@@ -12,12 +12,17 @@ module SyncTemplate
       @session.subreddit(subreddit).post_stream do |post|
         templates = post.selftext.scan(/\{.*?\}/)
         imgur_links = []
-        if !already_commented?(post) && templates.any?
+        # In this order, since Ruby fast-fails with &&.  So if there are no
+        # templates, the reddit API isn't hit.
+        if templates.any? && !already_commented?(post)
           templates.each do |template|
             begin
               imgur_links << upload_screenshot(template)
               puts "New post: #{imgur_links}"
             rescue
+              # I know it's literally satan to rescue from generic error
+              # But the result is the same, regardless of the error and the user
+              # shouldn't be informed.  So we're doing this
               puts 'Error in template creation'
             end
           end
@@ -31,6 +36,7 @@ module SyncTemplate
     def message(imgur_links)
       formatted_templates = imgur_links.map do |il|
         # Ugly, but it formats comments to have proper links
+        # Format: [name](url)
         "[#{il[:name] || 'Theme'}](#{il[:url]})"
       end
 
@@ -40,13 +46,13 @@ module SyncTemplate
     def upload_screenshot(template)
       sync = SyncTemplate::TemplateParser.new template
       imgur_url = SyncTemplate::ImgurUploader.upload_template sync.render
-      imgur_hash = { name: sync.name, url: imgur_url }
       sync.cleanup
-      imgur_hash
+      imgur_hash = { name: sync.name, url: imgur_url }
     end
 
     def already_commented?(post)
       commenters = []
+      # I could probably one-line the rest of this, but clarity > cleverness
       if post.comments.to_ary.any?
         commenters = post.comments.map { |c| c.author.name }
       end
