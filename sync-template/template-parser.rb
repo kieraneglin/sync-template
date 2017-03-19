@@ -3,16 +3,17 @@ require 'ERB'
 require 'JSON'
 require 'securerandom'
 require 'color'
+require 'CGI'
 
 module SyncTemplate
   class TemplateParser
     attr_accessor :content, :name
 
     def initialize(content)
-      @content = JSON.parse content
+      @content = clean_content(content)
       @content['pencil'] = pencil_colour
       @name = @content['name']
-      # Is this collision safe?  No.  Do I care?  Also no.
+      # Is this superfluous? Yes.
       @filename = SecureRandom.hex(13)
     end
 
@@ -29,6 +30,15 @@ module SyncTemplate
     end
 
     private
+
+    def clean_content(content)
+      content = JSON.parse(content)
+      # Escape malicious HTML
+      content.each do |_,str|
+        str.replace CGI.escapeHTML(str) if str.is_a? String
+      end
+      content
+    end
 
     def pencil_colour
       # Uses same algo as ljdawson to calculate brightness, but this is inverse

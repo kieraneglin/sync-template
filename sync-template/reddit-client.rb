@@ -19,11 +19,11 @@ module SyncTemplate
             begin
               imgur_links << upload_screenshot(template)
               puts "New post: #{imgur_links}"
-            rescue
-              # I know it's literally satan to rescue from generic error
+            rescue Exception => e
+              # I know it's bad days to rescue from generic error
               # But the result is the same, regardless of the error and the user
               # shouldn't be informed.  So we're doing this
-              puts 'Error in template creation'
+              puts "Error in template creation: #{e}"
             end
           end
           post.reply message(imgur_links) if imgur_links.any?
