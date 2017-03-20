@@ -18,10 +18,11 @@ module SyncTemplate
     end
 
     def render
+      filepath = File.join(Dir.pwd, 'images', "#{@filename}.jpg")
       kit = IMGKit.new(compile_html, quality: 100, width: 810)
       kit.stylesheets.push(compile_css)
-      kit.to_file("images/#{@filename}.jpg")
-      File.join(Dir.pwd, 'images', "#{@filename}.jpg")
+      kit.to_file(filepath)
+      filepath
     end
 
     def cleanup
@@ -49,8 +50,8 @@ module SyncTemplate
 
     def compile_css
       # IMGKit can only take files as args, not strings
-      stylesheet = File.open('template/template.css').read
-      filename = "stylesheets/#{@filename}.css"
+      stylesheet = File.open(File.join('stylesheets', "template.css")).read
+      filename = File.join(Dir.pwd, 'stylesheets', "#{@filename}.css")
       File.open(filename, 'w') do |f|
         f.write(ERB.new(stylesheet).result(binding))
       end
@@ -58,7 +59,7 @@ module SyncTemplate
     end
 
     def compile_html
-      template = File.open('template/template.html').read
+      template = File.open(File.join('stylesheets', "template.html")).read
       ERB.new(template).result(binding)
     end
   end
