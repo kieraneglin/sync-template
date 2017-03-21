@@ -50,7 +50,7 @@ module SyncTemplate
 
     def compile_css
       # IMGKit can only take files as args, not strings
-      stylesheet = File.open(File.join('stylesheets', "template.css")).read
+      stylesheet = File.open(File.join('template', "template.css")).read
       filename = File.join(Dir.pwd, 'stylesheets', "#{@filename}.css")
       File.open(filename, 'w') do |f|
         f.write(ERB.new(stylesheet).result(binding))
@@ -59,7 +59,7 @@ module SyncTemplate
     end
 
     def compile_html
-      template = File.open(File.join('stylesheets', "template.html")).read
+      template = File.open(File.join('template', "template.html")).read
       ERB.new(template).result(binding)
     end
   end

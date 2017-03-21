@@ -40,7 +40,7 @@ module SyncTemplate
         "[#{il[:name] || 'Theme'}](#{il[:url]})"
       end
 
-      "Screenshots for each template: #{formatted_templates.join(', ')}"
+      "Screenshots for each template: #{formatted_templates.join(', ')} ^(I am a bot)"
     end
 
     def upload_screenshot(template)
