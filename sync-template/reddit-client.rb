@@ -10,7 +10,7 @@ module SyncTemplate
 
     def monitor_posts(subreddit)
       @session.subreddit(subreddit).post_stream do |post|
-        templates = post.selftext.scan(/\{.*?\}/)
+        templates = post.selftext.scan(/\{.*?\}/m)
         imgur_links = []
         # In this order, since Ruby fast-fails with &&.  So if there are no
         # templates, the reddit API isn't hit.
