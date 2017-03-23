@@ -12,9 +12,11 @@ module SyncTemplate
       @session.subreddit(subreddit).post_stream do |post|
         templates = post.selftext.scan(/\{.*?\}/m)
         imgur_links = []
+        puts 'Reading Post'
         # In this order, since Ruby fast-fails with &&.  So if there are no
         # templates, the reddit API isn't hit.
         if templates.any? && !already_commented?(post)
+          puts 'Found New Post With Template'
           templates.each do |template|
             begin
               imgur_links << upload_screenshot(template)
@@ -26,7 +28,9 @@ module SyncTemplate
               puts "Error in template creation: #{e}"
             end
           end
+          imgur_links.reject! { |a| a[:url] === nil }
           post.reply message(imgur_links) if imgur_links.any?
+          sleep 10
         end
       end
     end
@@ -37,7 +41,8 @@ module SyncTemplate
       formatted_templates = imgur_links.map do |il|
         # Ugly, but it formats comments to have proper links
         # Format: [name](url)
-        "[#{il[:name] || 'Theme'}](#{il[:url]})"
+        puts il
+        "[#{il[:name] || 'Theme'}](#{il[:url]})" if il[:url]
       end
 
       "Screenshots for each template: #{formatted_templates.join(', ')} ^^I'm ^^a ^^bot"

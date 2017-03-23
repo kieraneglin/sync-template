@@ -34,7 +34,6 @@ html, body {
 .more {
   float: right;
   margin-right: 25px;
-  color: white;
 }
 
 .more>svg {
@@ -45,7 +44,10 @@ html, body {
   float: left;
   font-size: 40px;
   margin: 40px 0 0 45px;
-  color: white;
+  width: 650px;
+  color: <%= content["header_text"] %>;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fab {

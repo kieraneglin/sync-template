@@ -11,7 +11,6 @@ module SyncTemplate
         request.set_form_data(encode_image(filepath))
         request.add_field('Authorization', authorization)
         response = web_client.request(request)
-
         JSON.parse(response.body)['data']['link']
       end
 

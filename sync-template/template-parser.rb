@@ -11,7 +11,8 @@ module SyncTemplate
 
     def initialize(content)
       @content = clean_content(content)
-      @content['pencil'] = pencil_colour
+      @content['pencil'] = item_colour(@content['accent_color'])
+      @content['header_text'] = item_colour(@content['primary_color'])
       @name = @content['name']
       # Is this superfluous? Yes.
       @filename = SecureRandom.hex(13)
@@ -41,10 +42,10 @@ module SyncTemplate
       content
     end
 
-    def pencil_colour
+    def item_colour(item)
       # Uses same algo as ljdawson to calculate brightness, but this is inverse
       # So we have to compare against 0.8 instead of 0.2
-      brightness = Color::RGB.from_html(@content['accent_color']).brightness
+      brightness = Color::RGB.from_html(item).brightness
       brightness < 0.8 ? '#FFFFFF' : '#000000'
     end
 
