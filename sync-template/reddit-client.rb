@@ -30,6 +30,8 @@ module SyncTemplate
           end
           imgur_links.reject! { |a| a[:url] === nil }
           post.reply message(imgur_links) if imgur_links.any?
+
+          # To satisfy imgur ratelimiting
           sleep 10
         end
       end
